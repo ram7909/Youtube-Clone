@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const SuggestedVideo = () => {
-    const [data, setData] = useState([])
-    const [category, setCategory] = useState('jjtklU68BsQ')
-    const [loading, setLoading] = useState(false)
+    const [data, setData] = useState([]);
+    const [category, setCategory] = useState('jjtklU68BsQ');
+    const [loading, setLoading] = useState(false);
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+
     useEffect(() => {
-        const FetchData = async (categoryId) => {
-            setLoading(true)
+        const fetchData = async (categoryId) => {
+            setLoading(true);
             const url = `https://youtube-v31.p.rapidapi.com/search?relatedToVideoId=${categoryId}&part=id%2Csnippet&type=video&maxResults=100`;
             const options = {
                 method: 'GET',
                 headers: {
-                    'x-rapidapi-key': '1481965fa9msh6e37f80b05c9703p19401fjsn0040fc82cbd7',
+                    'x-rapidapi-key': '05c0062a34mshfe55fa33ba28f93p1418fdjsn6dd24f451f2e',
                     'x-rapidapi-host': 'youtube-v31.p.rapidapi.com'
                 }
             };
@@ -19,58 +22,98 @@ const SuggestedVideo = () => {
             try {
                 const response = await fetch(url, options);
                 const result = await response.json();
-                setData(result.items)
+                setData(result.items);
             } catch (error) {
                 console.error(error);
             } finally {
-                setLoading(false)
+                setLoading(false);
             }
-        }
-        FetchData(category);
-    }, [category])
+        };
+
+        fetchData(category);
+    }, [category]);
 
     const onClick = (categoryId) => {
-        setCategory(categoryId)
-    }
+        setCategory(categoryId);
+        setDropdownOpen(false); // Close the dropdown after selecting a category
+    };
 
+    const toggleDropdown = () => {
+        setDropdownOpen(!dropdownOpen);
+    };
 
     return (
         <>
-            <div className="buttons my-4">
-                <button type="button" className="btn btns" onClick={() => onClick('jjtklU68BsQ')}>All</button>
-                <button type="button" className="btn btns" onClick={() => onClick('HscrSwilshM')}>Music</button>
-                <button type="button" className="btn btns" onClick={() => onClick('3cRV6QnGBzA')}>News</button>
-                <button type="button" className="btn btns" onClick={() => onClick('e7dJYf8YtfQ')}>Web Development</button>
-                <button type="button" className="btn btns" onClick={() => onClick('2MHjKahYqP0')}>Live</button>
-                <button type="button" className="btn btns" onClick={() => onClick('ly7QhOGGp4g')}>Gaming</button>
-                <button type="button" className="btn btns" onClick={() => onClick('6Upm57HhBpc')}>Anime</button>
-                <button type="button" className="btn btns" onClick={() => onClick('QDXAMYOvf5g')}>TMKOC</button>
+            <div className="dropdown my-4">
+                <button
+                    className="btn btns dropdown-toggle"
+                    type="button"
+                    id="dropdownMenuButton"
+                    onClick={toggleDropdown}
+                    aria-haspopup="true"
+                    aria-expanded={dropdownOpen ? 'true' : 'false'}
+                >
+                    Filter <i className="fa-solid fa-filter"></i>
+                </button>
+                <div className={`dropdown-menu bg-dark text-light ${dropdownOpen ? 'show' : ''}`} aria-labelledby="dropdownMenuButton">
+                    <button type="button" className="text-light dropdown-item" onClick={() => onClick('jjtklU68BsQ')}>
+                        All
+                    </button>
+                    <button type="button" className="text-light dropdown-item" onClick={() => onClick('HscrSwilshM')}>
+                        Music
+                    </button>
+                    <button type="button" className="text-light dropdown-item" onClick={() => onClick('3cRV6QnGBzA')}>
+                        News
+                    </button>
+                    <button type="button" className="text-light dropdown-item" onClick={() => onClick('e7dJYf8YtfQ')}>
+                        Web Development
+                    </button>
+                    <button type="button" className="text-light dropdown-item" onClick={() => onClick('2MHjKahYqP0')}>
+                        Live
+                    </button>
+                    <button type="button" className="text-light dropdown-item" onClick={() => onClick('ly7QhOGGp4g')}>
+                        Gaming
+                    </button>
+                    <button type="button" className="text-light dropdown-item" onClick={() => onClick('6Upm57HhBpc')}>
+                        Anime
+                    </button>
+                    <button type="button" className="text-light dropdown-item" onClick={() => onClick('QDXAMYOvf5g')}>
+                        TMKOC
+                    </button>
+                </div>
             </div>
-            <div className="menu btn my-2 mx-2">Filter <i className="fa-solid fa-filter"></i></div>
+
             <div className="continer mt-4">
                 <div className="row">
                     {loading ? (
                         <div className="load">
-                            <p className='loader'></p>
+                            <p className="loader"></p>
                         </div>
                     ) : (
                         data.map((item) => (
-                            <div className="col-md-4 mb-3" key={Math.random()}>
-                                <div className="card bg-dark text-light">
+                            <div className="col-md-4 mb-3" key={item.id.videoId}>
+                                <Link to={`/video/watch=/${item.id.videoId}`} className="card bg-dark text-light">
                                     {item.snippet && item.snippet.thumbnails && item.snippet.thumbnails.medium && (
-                                        <img src={item.snippet.thumbnails.medium.url} className="card-img-top" alt="Thumbnail" />
+                                        <img
+                                            src={item.snippet.thumbnails.medium.url}
+                                            className="card-img-top"
+                                            alt="Thumbnail"
+                                        />
                                     )}
                                     <div className="card-body">
                                         <h5 className="card-title">{item.snippet && item.snippet.title}</h5>
                                     </div>
-                                </div>
+                                    <div className="channel-detail">
+                                        <div className="channel-name">{item.snippet.channelTitle}</div>
+                                    </div>
+                                </Link>
                             </div>
                         ))
                     )}
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default SuggestedVideo
+export default SuggestedVideo;

@@ -4,7 +4,7 @@ import Navbar from './components/Navbar'
 import SuggestedVideo from './components/SuggestedVideo'
 import Search from './components/Search'
 import { ChannelIdProvider } from './context/channelID/ChannelId';
-import VideoDetail from './components/VideoDetail'
+// import VideoDetail from './components/VideoDetail'
 const App = () => {
   return (
     <Router>
@@ -13,7 +13,7 @@ const App = () => {
         <Routes>
           <Route path='/' element={<SuggestedVideo />} />
           <Route path='/search/:id' element={<Search />} />
-          <Route path='/video/:id' element={<VideoDetail />} />
+          {/* <Route path='/video/watch=/:id' element={<VideoDetail />} /> */}
         </Routes>
       </ChannelIdProvider>
 

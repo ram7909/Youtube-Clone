@@ -135,10 +135,28 @@ body {
   .menu{
     display: none;
   }
+  .channel-detail{
+    padding: 0px 10px 10px 10px;
+  }
+
+  .card{
+    text-decoration: none;
+    color: white;
+  }
+  .dropdown{
+    padding: 0px 100px;
+  }
+
+  .dropdown-item:hover{
+    background-color: black;
+  }
 
   @media screen and (max-width:768px){
     .nav_bar .continer .right input{
       width: 300px;
+    }
+    .dropdown{
+      padding: 0px 10px;
     }
     .nav_bar .continer{
       gap: 50px;
@@ -152,6 +170,11 @@ body {
     }
     .buttons{
         gap: 10px;
+    }
+    .banner img{
+      width: 100%;
+      max-height: 250px;
+      border-radius: 20px;
     }
   }
   @media screen and (max-width:550px) {
@@ -172,10 +195,47 @@ body {
         background-color: white;
         color: black;
     }
+    .name_logo .logo img{
+      height: 150px;
+      width: 150px;
+    }
+    .name p{
+      font-size: 14px;
+      margin-top: -6px;
+    }
   }
 
   @media screen and (max-width:400px){
     .brandName{
       display: none;
+    }
+    .name_logo .logo img{
+      height: 100px;
+      width: 100px;
+    }
+    .name p{
+      font-size: 12px;
+    }
+    .name p:nth-child(3){
+      margin-top: -15px;
+    }
+    .name .btn{
+      margin-top: -20px;
+      padding: 2px 5px;
+      font-size: 10px;
+    }
+    .banner img{
+      height: 150px;
+    }
+  }
+  @media screen and (max-width:350px){
+    .nav_bar .continer .right input{
+      width: 150px;
+    }
+    .nav_bar .continer{
+      gap: 20px;
+    }
+    .name p{
+      font-size: 9px;
     }
   }

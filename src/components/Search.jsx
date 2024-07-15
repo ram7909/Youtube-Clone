@@ -5,12 +5,13 @@ const Search = () => {
     const { channelId } = useChannelId();
     const [channelDetails, setChannelDetails] = useState([]);
     useEffect(() => {
+        
         const fetchData = async () => {
             const url = `https://youtube-v31.p.rapidapi.com/channels?part=snippet%2Cstatistics&id=${channelId}`;
             const options = {
                 method: 'GET',
                 headers: {
-                    'x-rapidapi-key': '1481965fa9msh6e37f80b05c9703p19401fjsn0040fc82cbd7',
+                    'x-rapidapi-key': '05c0062a34mshfe55fa33ba28f93p1418fdjsn6dd24f451f2e',
                     'x-rapidapi-host': 'youtube-v31.p.rapidapi.com'
                 }
             };
