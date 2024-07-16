@@ -3,9 +3,10 @@ import { Link } from 'react-router-dom';
 
 const SuggestedVideo = () => {
     const [data, setData] = useState([]);
-    const [category, setCategory] = useState('jjtklU68BsQ');
+    const [category, setCategory] = useState('ViTJKjGNgOY');
     const [loading, setLoading] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [channelData, setChannelData] = useState([]);
 
     useEffect(() => {
         const fetchData = async (categoryId) => {
@@ -23,10 +24,33 @@ const SuggestedVideo = () => {
                 const response = await fetch(url, options);
                 const result = await response.json();
                 setData(result.items);
+                const ids = result.items.map(item => item.snippet.channelId);
+                setChannelData([]);
+                fetchChannelData(ids);
             } catch (error) {
                 console.error(error);
             } finally {
                 setLoading(false);
+            }
+        };
+
+        const fetchChannelData = async (ids) => {
+            const url = `https://youtube-v31.p.rapidapi.com/channels?part=snippet%2Cstatistics&id=${ids.join(',')}`;
+            const options = {
+                method: 'GET',
+                headers: {
+                    'x-rapidapi-key': '05c0062a34mshfe55fa33ba28f93p1418fdjsn6dd24f451f2e',
+                    'x-rapidapi-host': 'youtube-v31.p.rapidapi.com'
+                }
+            };
+
+            try {
+                const response = await fetch(url, options);
+                const result = await response.json();
+                setChannelData(result.items);
+                console.log(result.items);
+            } catch (error) {
+                console.error(error);
             }
         };
 
@@ -35,7 +59,7 @@ const SuggestedVideo = () => {
 
     const onClick = (categoryId) => {
         setCategory(categoryId);
-        setDropdownOpen(false); // Close the dropdown after selecting a category
+        setDropdownOpen(false);
     };
 
     const toggleDropdown = () => {
@@ -90,25 +114,36 @@ const SuggestedVideo = () => {
                             <p className="loader"></p>
                         </div>
                     ) : (
-                        data.map((item) => (
-                            <div className="col-md-4 mb-3" key={item.id.videoId}>
-                                <Link to={`/video/watch=/${item.id.videoId}`} className="card bg-dark text-light">
-                                    {item.snippet && item.snippet.thumbnails && item.snippet.thumbnails.medium && (
-                                        <img
-                                            src={item.snippet.thumbnails.medium.url}
-                                            className="card-img-top"
-                                            alt="Thumbnail"
-                                        />
-                                    )}
-                                    <div className="card-body">
-                                        <h5 className="card-title">{item.snippet && item.snippet.title}</h5>
-                                    </div>
-                                    <div className="channel-detail">
-                                        <div className="channel-name">{item.snippet.channelTitle}</div>
-                                    </div>
-                                </Link>
-                            </div>
-                        ))
+                        data.map((item) => {
+                            const channel = channelData.find(channel => channel.id === item.snippet.channelId);
+                            return (
+                                <div className="col-md-4 mb-3" key={item.id.videoId}>
+                                    <Link to={`/video/watch=/${item.id}/${item.id.videoId}`} className="card bg-dark text-light">
+                                        {item.snippet && item.snippet.thumbnails && item.snippet.thumbnails.medium && (
+                                            <img
+                                                src={item.snippet.thumbnails.medium.url}
+                                                className="card-img-top"
+                                                alt="Thumbnail"
+                                            />
+                                        )}
+                                        <div className="card-body">
+                                            <h5 className="card-title">{item.snippet && item.snippet.title}</h5>
+                                        </div>
+                                        <div className="channel-details">
+                                            {channel && (
+                                                <div className="channel-logo">
+                                                    <img
+                                                        src={channel.snippet.thumbnails.medium.url}
+                                                        alt="Channel Logo"
+                                                    />
+                                                </div>
+                                            )}
+                                            <div className="channel-name">{item.snippet.channelTitle}</div>
+                                        </div>
+                                    </Link>
+                                </div>
+                            );
+                        })
                     )}
                 </div>
             </div>
