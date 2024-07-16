@@ -152,6 +152,9 @@ body {
   }
 
   @media screen and (max-width:768px){
+    .nav_bar{
+      padding: 0px 20px;
+    }
     .nav_bar .continer .right input{
       width: 300px;
     }
@@ -160,7 +163,7 @@ body {
     }
     .nav_bar .continer{
       gap: 50px;
-      padding: 10px;
+      padding: 0px 0px 0px 10px
     }
     .ct{
       padding: 10px;
@@ -175,6 +178,12 @@ body {
       width: 100%;
       max-height: 250px;
       border-radius: 20px;
+    }
+  }
+  
+  @media screen and (max-width:575px) {
+    .nav_bar .continer .right input{
+      width: 250px;
     }
   }
   @media screen and (max-width:550px) {
@@ -204,11 +213,42 @@ body {
       margin-top: -6px;
     }
   }
-
-  @media screen and (max-width:400px){
+  @media screen and (max-width:490px) {
+    .nav_bar .continer .right input{
+      width: 200px ;
+    }
     .brandName{
       display: none;
     }
+    .name p{
+      font-size: 13px;
+    }
+  }
+
+  @media screen and (max-width:450px) {
+    .nav_bar .continer{
+      gap: 50px;
+    }
+    .nav_bar .continer .right input{
+      width: 200px;
+    }
+    .name p{
+      font-size: 12px;
+    }
+    .name .btn{
+      margin-top: -20px;
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+  }
+
+  @media screen and (max-width:430px){
+    .name p{
+      font-size: 11px;
+    }
+  }
+  @media screen and (max-width:400px){
+    
     .name_logo .logo img{
       height: 100px;
       width: 100px;
@@ -226,6 +266,9 @@ body {
     }
     .banner img{
       height: 150px;
+    }
+    .name p{
+      font-size: 10px;
     }
   }
   @media screen and (max-width:350px){

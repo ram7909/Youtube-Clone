@@ -18,7 +18,7 @@ const VideoDetail = () => {
       try {
         const response = await fetch(url, options);
         const result = await response.json();
-        console.log(result);
+        console.log(result.items);
       } catch (error) {
         console.error(error);
       }
