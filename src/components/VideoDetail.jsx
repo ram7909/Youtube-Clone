@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 const VideoDetail = () => {
-  const { videoId, channelIds } = useParams();
+  const { videoId, } = useParams();
   const [videoData, setVideoData] = useState([])
   const [commentData, setCommentData] = useState([])
   const [fetchSuggestedVideo, setFetchSuggestedVideo] = useState([])
@@ -11,7 +11,7 @@ const VideoDetail = () => {
       const options = {
         method: 'GET',
         headers: {
-          'x-rapidapi-key': '05c0062a34mshfe55fa33ba28f93p1418fdjsn6dd24f451f2e',
+          'x-rapidapi-key': '39480862eamsh16f987dc1751178p1a4c8cjsnd7c940a368bd',
           'x-rapidapi-host': 'youtube-v31.p.rapidapi.com'
         }
       };
@@ -29,7 +29,7 @@ const VideoDetail = () => {
       const options = {
         method: 'GET',
         headers: {
-          'x-rapidapi-key': '05c0062a34mshfe55fa33ba28f93p1418fdjsn6dd24f451f2e',
+          'x-rapidapi-key': '39480862eamsh16f987dc1751178p1a4c8cjsnd7c940a368bd',
           'x-rapidapi-host': 'youtube-v31.p.rapidapi.com'
         }
       };
@@ -47,7 +47,7 @@ const VideoDetail = () => {
       const options = {
         method: 'GET',
         headers: {
-          'x-rapidapi-key': '05c0062a34mshfe55fa33ba28f93p1418fdjsn6dd24f451f2e',
+          'x-rapidapi-key': '39480862eamsh16f987dc1751178p1a4c8cjsnd7c940a368bd',
           'x-rapidapi-host': 'youtube-v31.p.rapidapi.com'
         }
       };
@@ -95,10 +95,10 @@ const VideoDetail = () => {
                     <button className="dawoanload"><i className="fa-solid fa-download"></i>&nbsp;<span>Download</span></button>
                   </div>
                 </div>
-                <p className="card-text">
+                <div className="card-text">
                   <div className="des-head">{item.statistics.viewCount}&nbsp;views</div>
                   <p>{truncateText(item.snippet.description, 150)}</p>
-                </p>
+                </div>
                 <hr />
                 <h5 className='none'>{item.statistics.commentCount}&nbsp;Comments</h5>
                 {commentData?.map((cmt) => <div key={Math.random()} className='commentDetails my-4' style={{ gap: '10px' }}>
@@ -114,7 +114,7 @@ const VideoDetail = () => {
             </div>)}
           </div>
           <div className="recommend" >
-            {fetchSuggestedVideo?.map((sgt) => <Link to={`/video/watch=/${sgt.id.videoId}`} className='sub-rcmd my-3' key={Math.random()}>
+            {fetchSuggestedVideo?.map((sgt) => <Link to={`/video/watch/${sgt.id.videoId}`} className='sub-rcmd my-3' key={Math.random()}>
               <div className="img">
                 <img src={sgt.snippet.thumbnails.default.url} alt="thumbnails" />
               </div>

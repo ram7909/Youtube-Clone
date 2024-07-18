@@ -11,7 +11,7 @@ const Search = () => {
             const options = {
                 method: 'GET',
                 headers: {
-                    'x-rapidapi-key': '05c0062a34mshfe55fa33ba28f93p1418fdjsn6dd24f451f2e',
+                    'x-rapidapi-key': '39480862eamsh16f987dc1751178p1a4c8cjsnd7c940a368bd',
                     'x-rapidapi-host': 'youtube-v31.p.rapidapi.com'
                 }
             };

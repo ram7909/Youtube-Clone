@@ -3,19 +3,18 @@ import { Link } from 'react-router-dom';
 
 const SuggestedVideo = () => {
     const [data, setData] = useState([]);
-    const [category, setCategory] = useState('ViTJKjGNgOY');
+    const [category, setCategory] = useState('vbIr4i_jM9A');
     const [loading, setLoading] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [channelData, setChannelData] = useState([]);
 
     useEffect(() => {
         const fetchData = async (categoryId) => {
             setLoading(true);
-            const url = `https://youtube-v31.p.rapidapi.com/search?relatedToVideoId=${categoryId}&part=id%2Csnippet&type=video&maxResults=100`;
+            const url = `https://youtube-v31.p.rapidapi.com/search?relatedToVideoId=${categoryId}&part=id%2Csnippet&type=video&maxResults=50`;
             const options = {
                 method: 'GET',
                 headers: {
-                    'x-rapidapi-key': '05c0062a34mshfe55fa33ba28f93p1418fdjsn6dd24f451f2e',
+                    'x-rapidapi-key': '39480862eamsh16f987dc1751178p1a4c8cjsnd7c940a368bd',
                     'x-rapidapi-host': 'youtube-v31.p.rapidapi.com'
                 }
             };
@@ -23,37 +22,13 @@ const SuggestedVideo = () => {
             try {
                 const response = await fetch(url, options);
                 const result = await response.json();
-                setData(result.items);
-                const ids = result.items.map(item => item.snippet.channelId);
-                setChannelData([]);
-                fetchChannelData(ids);
+                setData(result.items)
             } catch (error) {
                 console.error(error);
             } finally {
                 setLoading(false);
             }
         };
-
-        const fetchChannelData = async (ids) => {
-            const url = `https://youtube-v31.p.rapidapi.com/channels?part=snippet%2Cstatistics&id=${ids.join(',')}`;
-            const options = {
-                method: 'GET',
-                headers: {
-                    'x-rapidapi-key': '05c0062a34mshfe55fa33ba28f93p1418fdjsn6dd24f451f2e',
-                    'x-rapidapi-host': 'youtube-v31.p.rapidapi.com'
-                }
-            };
-
-            try {
-                const response = await fetch(url, options);
-                const result = await response.json();
-                setChannelData(result.items);
-                console.log(result.items);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
         fetchData(category);
     }, [category]);
 
@@ -83,17 +58,14 @@ const SuggestedVideo = () => {
                     <button type="button" className="text-light dropdown-item" onClick={() => onClick('jjtklU68BsQ')}>
                         All
                     </button>
-                    <button type="button" className="text-light dropdown-item" onClick={() => onClick('HscrSwilshM')}>
+                    <button type="button" className="text-light dropdown-item" onClick={() => onClick('8v-TWxPWIWc')}>
                         Music
                     </button>
-                    <button type="button" className="text-light dropdown-item" onClick={() => onClick('3cRV6QnGBzA')}>
+                    <button type="button" className="text-light dropdown-item" onClick={() => onClick('JC7ieHddNio')}>
                         News
                     </button>
                     <button type="button" className="text-light dropdown-item" onClick={() => onClick('e7dJYf8YtfQ')}>
                         Web Development
-                    </button>
-                    <button type="button" className="text-light dropdown-item" onClick={() => onClick('2MHjKahYqP0')}>
-                        Live
                     </button>
                     <button type="button" className="text-light dropdown-item" onClick={() => onClick('ly7QhOGGp4g')}>
                         Gaming
@@ -114,37 +86,26 @@ const SuggestedVideo = () => {
                             <p className="loader"></p>
                         </div>
                     ) : (
-                        data.map((item) => {
-                            const channel = channelData.find(channel => channel.id === item.snippet.channelId);
-                            return (
-                                <div className="col-md-4 mb-3" key={item.id.videoId}>
-                                    <Link to={`/video/watch=/${item.id}/${item.id.videoId}`} className="card bg-dark text-light">
-                                        {item.snippet && item.snippet.thumbnails && item.snippet.thumbnails.medium && (
-                                            <img
-                                                src={item.snippet.thumbnails.medium.url}
-                                                className="card-img-top"
-                                                alt="Thumbnail"
-                                            />
-                                        )}
-                                        <div className="card-body">
-                                            <h5 className="card-title">{item.snippet && item.snippet.title}</h5>
-                                        </div>
-                                        <div className="channel-details">
-                                            {channel && (
-                                                <div className="channel-logo">
-                                                    <img
-                                                        src={channel.snippet.thumbnails.medium.url}
-                                                        alt="Channel Logo"
-                                                    />
-                                                </div>
-                                            )}
-                                            <div className="channel-name">{item.snippet.channelTitle}</div>
-                                        </div>
-                                    </Link>
-                                </div>
-                            );
-                        })
+                        data?.map((item) => (
+                            <div className="col-md-4 mb-3" key={item.id.videoId}>
+                                <Link to={`/video/watch/${item.id.videoId}`} className="card bg-dark text-light">
+                                    <img
+                                        src={item.snippet.thumbnails.medium.url}
+                                        className="card-img-top"
+                                        alt="Thumbnail"
+                                    />
+
+                                    <div className="card-body">
+                                        <h5 className="card-title">{item.snippet.title}</h5>
+                                    </div>
+                                    <div className="channel-details">
+                                        <div className="channel-name">{item.snippet.channelTitle}</div>
+                                    </div>
+                                </Link>
+                            </div>
+                        ))
                     )}
+
                 </div>
             </div>
         </>
